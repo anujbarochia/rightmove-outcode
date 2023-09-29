@@ -27,20 +27,17 @@ const csvFilePath = "outcodes.csv";
 
     try {
       const response = await axios.get(url);
-      // const headers = response.headers;
       const redirectedUrl = response.request.res.responseUrl;
       const urlObject = new URL(redirectedUrl);
       const identifier = urlObject.searchParams.get("locationIdentifier");
       const newOutcode = identifier.split("^")[1];
       responses.push({ previous: param, new: newOutcode });
-      // const newObj = { [param]: newOutcode };
       console.log(`Postcode for ${param}: ${newOutcode} `);
     } catch (error) {
       console.error(
         `Error fetching data for parameter ${param}: ${error.message}: ${url}:`
       );
     }
-    // console.log(`response ${responses}`);
   }
   await csvWriter
     .writeRecords(responses)
